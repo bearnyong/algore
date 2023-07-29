@@ -10,17 +10,25 @@ public class TrimProcedureDTO {
     private String tpDetail; //내용
     private String tpPath; //저장경로
     private MultipartFile inputFile;//손질사진
+    private String saveName; //저장이름
 
     public TrimProcedureDTO() {
     }
 
-    public TrimProcedureDTO(int tpStepNum, int trimNum, String tpFileName, String tpDetail, String tpPath, MultipartFile inputFile) {
+    public TrimProcedureDTO(String tpPath, String saveName, int trimNum) {
+        this.tpPath = tpPath;
+        this.saveName = saveName;
+        this.trimNum = trimNum;
+    }
+
+    public TrimProcedureDTO(int tpStepNum, int trimNum, String tpFileName, String tpDetail, String tpPath, MultipartFile inputFile, String saveName) {
         this.tpStepNum = tpStepNum;
         this.trimNum = trimNum;
         this.tpFileName = tpFileName;
         this.tpDetail = tpDetail;
         this.tpPath = tpPath;
         this.inputFile = inputFile;
+        this.saveName = saveName;
     }
 
     public int getTpStepNum() {
@@ -39,7 +47,7 @@ public class TrimProcedureDTO {
         this.trimNum = trimNum;
     }
 
-    public String getTpFileName(String tpFileNames) {
+    public String getTpFileName() {
         return tpFileName;
     }
 
@@ -71,6 +79,14 @@ public class TrimProcedureDTO {
         this.inputFile = inputFile;
     }
 
+    public String getSaveName() {
+        return saveName;
+    }
+
+    public void setSaveName(String saveName) {
+        this.saveName = saveName;
+    }
+
     @Override
     public String toString() {
         return "TrimProcedureDTO{" +
@@ -80,7 +96,7 @@ public class TrimProcedureDTO {
                 ", tpDetail='" + tpDetail + '\'' +
                 ", tpPath='" + tpPath + '\'' +
                 ", inputFile=" + inputFile +
+                ", saveName='" + saveName + '\'' +
                 '}';
     }
 }
-

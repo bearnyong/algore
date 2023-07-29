@@ -1,6 +1,7 @@
 package com.algore.application.kitchenguide.service;
 
 import com.algore.application.kitchenguide.dao.KitchenguideMapper;
+import com.algore.application.kitchenguide.dto.StorageDTO;
 import com.algore.application.kitchenguide.dto.TrimDTO;
 import com.algore.application.kitchenguide.dto.TrimProcedureDTO;
 import org.springframework.stereotype.Service;
@@ -78,6 +79,16 @@ public class KitchenguideService {
 
     public int trimUpdatePost(TrimDTO trimDTO) {
         int result = mapper.trimPostUpdate(trimDTO);
+        return result;
+    }
+
+    public List<StorageDTO> mainPostStorage() {
+        List<StorageDTO> stomainList = mapper.stoPostMain();
+        return stomainList;
+    }
+
+    public int trimUpdatePostList(List<TrimProcedureDTO> multiFiles) { //수정 리스트
+        int result = mapper.trimPostUpdateList(multiFiles);
         return result;
     }
 }

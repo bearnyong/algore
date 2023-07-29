@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/layout}">
+      layout:decorate="~{common/layouts/layout}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <th:block layout:fragment="content">
 
@@ -143,7 +144,7 @@
             <div class="d-flex justify-content-center" id="main-one-area" style="margin-top: 10px;">
                 <!--손질 순서 사진-->
                 <div>
-                    <img th:src="${List.tpPath}" class="img-thumbnail input-box-sty"
+                    <img src="/img/algorelogo.png" class="img-thumbnail input-box-sty"
                          style="height: 200px; width: 370px; margin-right: 30px;">
                 </div>
                 <!--손질 순서 내용-->
@@ -156,7 +157,7 @@
         </th:block>
 
         <!--수정(관리자권한)"'/kitchenguide/delete/${trimDTO.trimNum}"-->
-        <div sec:authorize="hasRole('ADMIN')">
+        <div sec:authorize="hasAuthority('ADMIN')">
             <div class="d-flex justify-content-end new-margin" style="margin-top: 30px;">
                 <a th:href="'/kitchenguide/delete/'+${trimNum}" class="btn btn-primary but-off-color" role="button"
                    style=" margin-right: 15px; text-align: center; border-radius: 2em;"

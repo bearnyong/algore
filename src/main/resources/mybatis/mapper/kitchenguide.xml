@@ -35,6 +35,22 @@
         WHERE TRIM_STATUS = 'Y'
         ORDER BY T.TRIM_NUM DESC
     </select>
+    <resultMap id="stoDtoMap" type="com.algore.application.kitchenguide.dto.StorageDTO">
+        <id property="stoNum" column="STO_NUM"/>
+        <result property="stoTitle" column="STO_TITLE"/>
+        <result property="stoDetail" column="STO_DETAIL"/>
+        <result property="stoVideoLink" column="STO_VIDEO_LINK"/>
+        <result property="stoViews" column="STO_VIEWS"/>
+    </resultMap>
+    <select id="stoPostMain" resultMap="stoDtoMap">
+        SELECT
+        STO_NUM,
+        STO_TITLE,
+        STO_VIDEO_LINK
+        FROM STORAGE
+        ORDER BY STO_NUM DESC
+    </select>
+
     <!--게시글 삭제(trimread)-->
     <update id="trimPostDelete">
         UPDATE TRIM
@@ -46,7 +62,7 @@
     <resultMap id="trimProcedureDTOPost" type="com.algore.application.kitchenguide.dto.TrimProcedureDTO">
         <id property="tpStepNum" column="TP_STEP_NUM"/>
         <result property="trimNum" column="TRIM_NUM"/>
-        <result property="tpFileName" column="TP_FILE_NAME"/>
+        <result property="saveName" column="TP_FILE_NAME"/>
         <result property="tpDetail" column="TP_DETAIL"/>
         <result property="tpPath" column="TP_PATH"/>
     </resultMap>
@@ -72,21 +88,22 @@
     <update id="trimPostUpdate">
         UPDATE TRIM
         SET
-            TRIM_TITLE = #{trimTitle} ,
-            TRIM_DETAIL = #{trimDetail} ,
-            TRIM_VIDEO_LINK = #{trimVideoLink}
+        TRIM_TITLE = #{trimTitle} ,
+        TRIM_DETAIL = #{trimDetail} ,
+        TRIM_VIDEO_LINK = #{trimVideoLink}
         WHERE TRIM_NUM = #{trimNum}
     </update>
 
-    <!--trimProcedureDTO 게시글 UPDATE-->
-    <update id="" parameterType="java.util.List">
-        <foreach collection="list" item="item" index="index" separator=" ">
+    <!--trimProcedureDTO 게시글 UPDATE (손질 순서)-->
+    <update id="trimPostUpdateList" parameterType="java.util.List">
+
+        <foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
             UPDATE TRIM_PROCEDURE
             SET
-                TP_FILE_NAME = #{tpFileName},
-                TP_DETAIL = #{tpDetail},
-                TP_PATH = #{tpPath}
-            WHERE TRIM_NUM = #{trimNum}
+                TP_FILE_NAME = #{item.saveName},
+<!--                TP_DETAIL = #{item.tpDetail},-->
+                TP_PATH = #{item.tpPath}
+            <where>TRIM_NUM = #{item.trimNum}</where>
         </foreach>
     </update>
 
@@ -110,33 +127,33 @@
         TrimProcedureDTO를 매개변수로 받아서 trimProcedure 테이블에 값 넣어주기-->
     <insert id="insertTrimProduce" parameterType="java.util.List">
         INSERT
-          INTO TRIM_PROCEDURE
-          (
-            TP_STEP_NUM, TRIM_NUM, TP_FILE,NAME, TP_DETAIL, TP_PATH
-          )
-          SELECT SEQ_TP_STEP_NUM.NEXTVAL, A * FROM(
-         <!--collection : 전달받은 인자 List or Array형태만 가능
-             item : 전달받은 인자 값
-             separator : 반복 되는 사이에 출력할 문자열
-             UNION ALL : 여러 쿼리문들을 합쳐서 하나의 쿼리문으로 만들어주는 방법 (중복된 값 모두 보여줌)-->
-          <foreach collection="List" item="item" separator="UNION ALL">
-              (SELECT MAX(#{trimNum} FROM TRIM),
-              #{item.tpFileName},
-              #{item.tpDetail},
-              #{item.tpPath}
-          </foreach>) A
+        INTO TRIM_PROCEDURE
+        (
+        TP_STEP_NUM, TRIM_NUM, TP_FILE,NAME, TP_DETAIL, TP_PATH
+        )
+        SELECT SEQ_TP_STEP_NUM.NEXTVAL, A * FROM(
+        <!--collection : 전달받은 인자 List or Array형태만 가능
+            item : 전달받은 인자 값
+            separator : 반복 되는 사이에 출력할 문자열
+            UNION ALL : 여러 쿼리문들을 합쳐서 하나의 쿼리문으로 만들어주는 방법 (중복된 값 모두 보여줌)-->
+        <foreach collection="List" item="item" separator="UNION ALL">
+            (SELECT MAX(#{trimNum} FROM TRIM),
+            #{item.tpFileName},
+            #{item.tpDetail},
+            #{item.tpPath}
+        </foreach>) A
     </insert>
-<!--    <insert id="insertTrimProduce" parameterType="com.algore.application.kitchenguide.dto.TrimProcedureDTO">-->
-<!--        INSERT-->
-<!--          INTO TRIM_PROCEDURE-->
-<!--          (-->
-<!--            TP_STEP_NUM, TRIM_NUM, TP_FILE,NAME, TP_DETAIL, TP_PATH-->
-<!--          )VALUES(-->
-<!--          SEQ_TP_STEP_NUM.NEXTVAL,-->
-<!--          (SELECT MAX(#{trimNum}) FROM TRIM),-->
-<!--          #{tpFileName},-->
-<!--          #{tpDetail},-->
-<!--          #{tpPath}-->
-<!--          )-->
-<!--    </insert>-->
+    <!--    <insert id="insertTrimProduce" parameterType="com.algore.application.kitchenguide.dto.TrimProcedureDTO">-->
+    <!--        INSERT-->
+    <!--          INTO TRIM_PROCEDURE-->
+    <!--          (-->
+    <!--            TP_STEP_NUM, TRIM_NUM, TP_FILE,NAME, TP_DETAIL, TP_PATH-->
+    <!--          )VALUES(-->
+    <!--          SEQ_TP_STEP_NUM.NEXTVAL,-->
+    <!--          (SELECT MAX(#{trimNum}) FROM TRIM),-->
+    <!--          #{tpFileName},-->
+    <!--          #{tpDetail},-->
+    <!--          #{tpPath}-->
+    <!--          )-->
+    <!--    </insert>-->
 </mapper>

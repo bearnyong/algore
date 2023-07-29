@@ -42,6 +42,10 @@ image:
 mybatis:
   mapper-locations: mybatis/mapper/*.xml
   type-aliases-package: com.algore.application
+  allowMultiQueries : true
+  spring:
+    datasource:
+      url=jdbc:mysql://url:3306/database?characterEncoding=UTF-8&allowMultiQueries=true:
   configuration:
     map-underscore-to-camel-case: true
 
