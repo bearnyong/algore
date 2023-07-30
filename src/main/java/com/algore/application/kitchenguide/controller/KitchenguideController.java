@@ -279,8 +279,6 @@ public class KitchenguideController {
 
         System.out.println("손질순서 값 수정해보기 ------");
 
-
-
         /*----손질 순서 (사진 저장)----*/
         /*파일을 저장할 경로*/
         System.out.println("singleFile : " + tpFileName);
@@ -299,7 +297,7 @@ public class KitchenguideController {
         List<TrimProcedureDTO> multiFiles = new ArrayList<>();
         try {
             for (MultipartFile file : tpFileName) {
-                TrimProcedureDTO photo/*손질사진*/ = new TrimProcedureDTO();
+                TrimProcedureDTO photo/*손질사진, 내용*/ = new TrimProcedureDTO();
 
                 String originFileName = file.getOriginalFilename(); //현재 파일의 이름을 가져옴
                 String ext = originFileName.substring(originFileName.lastIndexOf(".")); //현재 파일의 확장자를 가져옴
@@ -309,22 +307,19 @@ public class KitchenguideController {
                 // 근데 아마 이렇게 하면 최종 값이 모두 마지막 데이터로 담겨있게 됨
 //                multiFiles.add(new TrimProcedureDTO(filePath, saveName, trimDTO.getTrimNum()));
                 // 이렇게 각자 값 담아주고 multiFiles에 add 해주기..그래도 안되네.ㅇㅇ.ㅇ.
+                // https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=dududtnr&logNo=221487314964
                 photo.setTpPath(filePath);
                 photo.setSaveName(saveName);
                 photo.setTrimNum(trimDTO.getTrimNum());
-
+                photo.setTpDetail(tpDetail);
                 multiFiles.add(photo);
 
-                System.out.println("f: " + filePath);
-                System.out.println("s: " + saveName);
-
-                //여기에 그그그 손질 순서 설명 추가!!!@#!@#
-                TrimProcedureDTO exlist/*손질순서*/ = new TrimProcedureDTO();
-
-//                String content =
+                System.out.println("TrimNum: " + trimDTO.getTrimNum());
+                System.out.println("filePath: " + filePath);
+                System.out.println("saveName: " + saveName);
+                System.out.println("tpDetail: " + tpDetail);
 
                 file.transferTo(new File(filePath + "/" + saveName));
-
             }
         } catch (IOException e) {
             e.printStackTrace();

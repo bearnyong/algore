@@ -101,7 +101,7 @@
             UPDATE TRIM_PROCEDURE
             SET
                 TP_FILE_NAME = #{item.saveName},
-<!--                TP_DETAIL = #{item.tpDetail},-->
+                TP_DETAIL = #{item.tpDetail},
                 TP_PATH = #{item.tpPath}
             <where>TRIM_NUM = #{item.trimNum}</where>
         </foreach>
