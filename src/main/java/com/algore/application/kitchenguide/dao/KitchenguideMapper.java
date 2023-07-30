@@ -30,4 +30,6 @@ public interface KitchenguideMapper {
     List<StorageDTO> stoPostMain(); //메인화면 - 보관법
 
     int trimPostUpdateList(List<TrimProcedureDTO> multiFiles); // 게시글 수정 - 손질 순서
+
+    int trimNewPostingMapper(List<TrimProcedureDTO> multiFiles); //게시글 작성
 }

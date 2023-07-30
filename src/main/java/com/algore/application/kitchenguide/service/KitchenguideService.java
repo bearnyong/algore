@@ -91,6 +91,11 @@ public class KitchenguideService {
         int result = mapper.trimPostUpdateList(multiFiles);
         return result;
     }
+
+    public int trimNewPosting(List<TrimProcedureDTO> multiFiles) { //게시글 작성
+        int result = mapper.trimNewPostingMapper(multiFiles);
+        return result;
+    }
 }
 
 
