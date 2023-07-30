@@ -299,16 +299,29 @@ public class KitchenguideController {
         List<TrimProcedureDTO> multiFiles = new ArrayList<>();
         try {
             for (MultipartFile file : tpFileName) {
+                TrimProcedureDTO photo/*손질사진*/ = new TrimProcedureDTO();
+
                 String originFileName = file.getOriginalFilename(); //현재 파일의 이름을 가져옴
                 String ext = originFileName.substring(originFileName.lastIndexOf(".")); //현재 파일의 확장자를 가져옴
                 String saveName = UUID.randomUUID().toString().replace("-", "") + ext;
 
                 // 저장된 값을 객체에 담아줌.. (데이터베이스 저장을 위해)
-                multiFiles.add(new TrimProcedureDTO(filePath, saveName, trimDTO.getTrimNum()));
+                // 근데 아마 이렇게 하면 최종 값이 모두 마지막 데이터로 담겨있게 됨
+//                multiFiles.add(new TrimProcedureDTO(filePath, saveName, trimDTO.getTrimNum()));
+                // 이렇게 각자 값 담아주고 multiFiles에 add 해주기..그래도 안되네.ㅇㅇ.ㅇ.
+                photo.setTpPath(filePath);
+                photo.setSaveName(saveName);
+                photo.setTrimNum(trimDTO.getTrimNum());
+
+                multiFiles.add(photo);
+
                 System.out.println("f: " + filePath);
                 System.out.println("s: " + saveName);
 
                 //여기에 그그그 손질 순서 설명 추가!!!@#!@#
+                TrimProcedureDTO exlist/*손질순서*/ = new TrimProcedureDTO();
+
+//                String content =
 
                 file.transferTo(new File(filePath + "/" + saveName));
 
