@@ -16,9 +16,17 @@ public class TrimProcedureDTO {
     }
 
     public TrimProcedureDTO(String tpPath, String saveName, int trimNum) {
+        /*write, update에서 사진 저장에 필요한 생성자*/
         this.tpPath = tpPath;
         this.saveName = saveName;
         this.trimNum = trimNum;
+    }
+
+    public TrimProcedureDTO(int trimNum, String tpDetail, String saveName) {
+        /*손질번호, 손질내용, 사진파일이름*/
+        this.trimNum = trimNum;
+        this.tpDetail = tpDetail;
+        this.saveName = saveName;
     }
 
     public TrimProcedureDTO(int tpStepNum, int trimNum, String tpFileName, String tpDetail, String tpPath, MultipartFile inputFile, String saveName) {

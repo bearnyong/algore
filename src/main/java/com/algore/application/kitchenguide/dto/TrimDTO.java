@@ -14,6 +14,12 @@ public class TrimDTO {
     public TrimDTO() {
     }
 
+    public TrimDTO(int trimNum, String trimTitle, String trimDetail) {
+        this.trimNum = trimNum;
+        this.trimTitle = trimTitle;
+        this.trimDetail = trimDetail;
+    }
+
     public TrimDTO(int trimNum, String trimTitle, String trimDetail, int trimViews, String trimVideoLink, String trimStatus, List<TrimProcedureDTO> trimProcedureDTOList) {
         this.trimNum = trimNum;
         this.trimTitle = trimTitle;
