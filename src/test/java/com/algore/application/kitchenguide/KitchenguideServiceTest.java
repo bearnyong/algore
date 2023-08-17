@@ -97,8 +97,20 @@ public class KitchenguideServiceTest {
     /*.....
     Kitchenguide Main Page TestCode.....*/
     @Test
-    @DisplayName("키친가이드 메인 페이지 테스트")
-    public void kitchenguideMainTest() {
+    @DisplayName("메인 페이지 게시글 상태 테스트")
+    public void MainPagePostStatusTest() {
+        // 1. given: 검증을 위한 파라미터를 준비하는 단계
+        int num = 14;
+        String status = "Y";
+
+        // 2. when: 테스트를 진행할 메서드를 호출
+        List<TrimDTO> dtomainList = kitchenguideService.mainPost();
+
+        // 3. then: 실행 결과를 검증
+        org.assertj.core.api.Assertions.assertThat(dtomainList)
+                //게시글 상태가 Y가 맞는지 확인하고 싶기..
+                .filteredOn("trimStatus", status);
+
     }
 
 
